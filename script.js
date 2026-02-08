@@ -110,9 +110,6 @@ function updateActiveNavLink() {
     });
 }
 
-// Update active link on scroll
-window.addEventListener('scroll', updateActiveNavLink);
-
 // ===================================
 // Scroll Animation for Timeline Items
 // ===================================
@@ -123,44 +120,8 @@ const observerOptions = {
     rootMargin: '0px 0px -50px 0px'
 };
 
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateX(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe timeline items
-const timelineItems = document.querySelectorAll('.timeline-item');
-timelineItems.forEach(item => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateX(-30px)';
-    item.style.transition = 'all 0.6s ease-out';
-    observer.observe(item);
-});
-
-// Observe skill categories
-const skillCategories = document.querySelectorAll('.skill-category');
-skillCategories.forEach((category, index) => {
-    category.style.opacity = '0';
-    category.style.transform = 'translateY(30px)';
-    category.style.transition = `all 0.6s ease-out ${index * 0.1}s`;
-    observer.observe(category);
-});
-
-// Observe education cards
-const educationCards = document.querySelectorAll('.education-card');
-educationCards.forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `all 0.6s ease-out ${index * 0.1}s`;
-    observer.observe(card);
-});
-
-// Update observer callback to handle all animated elements
-const enhancedObserver = new IntersectionObserver(function(entries) {
+// Create observer to handle all animated elements
+const animationObserver = new IntersectionObserver(function(entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
@@ -171,10 +132,32 @@ const enhancedObserver = new IntersectionObserver(function(entries) {
     });
 }, observerOptions);
 
-// Re-observe all elements with enhanced observer
-timelineItems.forEach(item => enhancedObserver.observe(item));
-skillCategories.forEach(category => enhancedObserver.observe(category));
-educationCards.forEach(card => enhancedObserver.observe(card));
+// Observe timeline items
+const timelineItems = document.querySelectorAll('.timeline-item');
+timelineItems.forEach(item => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(-30px)';
+    item.style.transition = 'all 0.6s ease-out';
+    animationObserver.observe(item);
+});
+
+// Observe skill categories
+const skillCategories = document.querySelectorAll('.skill-category');
+skillCategories.forEach((category, index) => {
+    category.style.opacity = '0';
+    category.style.transform = 'translateY(30px)';
+    category.style.transition = `all 0.6s ease-out ${index * 0.1}s`;
+    animationObserver.observe(category);
+});
+
+// Observe education cards
+const educationCards = document.querySelectorAll('.education-card');
+educationCards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = `all 0.6s ease-out ${index * 0.1}s`;
+    animationObserver.observe(card);
+});
 
 // ===================================
 // Dynamic Year in Footer
